@@ -16,3 +16,9 @@ fail('focused `it` left in tests') if `grep -r fit *Tests/ `.length > 1
 # Make sure the commit message is formatted properly
 # Rules: https://github.com/jonallured/danger-commit_lint#usage
 commit_lint.check warn: :all
+
+# Encourage writing up some reasoning about the PR, rather than just leaving a
+# title
+if github.pr_body.length < 5
+  fail "Please provide a summary in the Pull Request description"
+end
