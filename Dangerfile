@@ -22,3 +22,8 @@ commit_lint.check warn: :all
 if github.pr_body.length < 5
   fail "Please provide a summary in the Pull Request description"
 end
+
+# Prevent merging PRs with commits intended to be rebased
+if git.commits.any? { |c| c.message.include?('fixup!') || c.message.include?('squash!') }
+  fail('This PR contains commits marked as squash or fixup. Please perform an interactive rebase to apply the changes.')
+end
